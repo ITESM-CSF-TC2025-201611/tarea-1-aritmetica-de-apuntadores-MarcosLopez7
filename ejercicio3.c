@@ -23,14 +23,14 @@ int cama_size;
 
 int main(){
 
-	int *camas = (int *) malloc(N * L * N * L * N * sizeof(int));
-	paciente *pacientes = (paciente *) malloc(N * sizeof(int));
+	int *camas = (int *) malloc(100 * sizeof(int));
+	paciente *pacientes = (paciente *) malloc(N * L * L * L * sizeof(paciente));
 	ocupado = 0;
 	cama_size = N;	
 
 	menu(pacientes, camas);
 
-	destructor(pacientes, camas);
+	//destructor(pacientes, camas);
 	free(camas);	
 	return 0;
 }
@@ -82,13 +82,14 @@ void incorporarPaciente(paciente *p, int *c){
 
 	if(ocupado + n > cama_size){
 		cama_size += N;
-		c = (int *) realloc(c, cama_size * sizeof(int));			
+		printf("\nSobre cupo de pacientes, incorpotando 5 camas mas\n");
+		//c = (int *) realloc(c, 100 * sizeof(int));			
 	} 
 
 
 	for(i = 0; i < n; ++i){
 		
-		while(ocupado > (pPuntero - p) && cPuntero){
+		while(ocupado > (pPuntero - p) && *cPuntero){
                 	pPuntero++;
                 	cPuntero++;
         	}
@@ -97,8 +98,8 @@ void incorporarPaciente(paciente *p, int *c){
 		
 		paciente temp;
 
-		temp.nombre = (char *) malloc(L * sizeof(char *));
-		temp.apellido = (char *) malloc(L * sizeof(char *));	
+		temp.nombre = (char *) malloc(L * sizeof(char));
+		temp.apellido = (char *) malloc(L * sizeof(char));	
 
 		scanf("%s", temp.nombre);
 		scanf("%s", temp.apellido);
@@ -109,13 +110,13 @@ void incorporarPaciente(paciente *p, int *c){
 		printf("\nDame el telefono\n");
 		scanf("%d", &temp.telefono);
 	
-		ocupado++;
-	
 		if(ocupado == (pPuntero - p)){
+			ocupado++;
 			temp.cama = ocupado;
-		} else
-			temp.cama = cPuntero - c; 
-		
+		} else{
+			ocupado++;		
+			temp.cama = cPuntero - c + 1; 
+		}
 		*cPuntero = 1;
 		*pPuntero = temp;		
 
@@ -204,7 +205,6 @@ void destructor(paciente * p, int *c){
 	while(cama_size > (cPuntero - c)){
 		if(*cPuntero){
 			free((*pPuntero).nombre);
-                        printf("WTF?\n");
 			free((*pPuntero).apellido);
 		}
 		
