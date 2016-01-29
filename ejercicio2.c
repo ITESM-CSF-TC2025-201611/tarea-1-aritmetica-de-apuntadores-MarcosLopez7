@@ -13,18 +13,7 @@ void agregar(persona *, int);
 void destructor(persona *, int);
 void histograma(persona *, int);
 
-char *preguntas[] = {
-                "Pregunta 1",
-                "Pregunta 2",
-                "Pregunta 3",
-                "Pregunta 4",
-                "Pregunta 5",
-                "Pregunta 6",
-                "Pregunta 7",
-                "Pregunta 8",
-                "Pregunta 9",
-                "Pregunta 10"
-};
+char **preguntas;
 
 int main(){
 
@@ -34,11 +23,23 @@ int main(){
 	scanf("%d", &n);
 
 	persona *personas = (persona *) malloc(n * N * sizeof(persona));
+	preguntas = (char **) malloc(10 * N * sizeof(char *));
+	*(preguntas + 0) = "Pregunta 1";
+        *(preguntas + 1) = "Pregunta 2";
+        *(preguntas + 2) = "Pregunta 3";
+        *(preguntas + 3) = "Pregunta 4";
+        *(preguntas + 4) = "Pregunta 5";
+        *(preguntas + 5) = "Pregunta 6";
+        *(preguntas + 6) = "Pregunta 7";
+        *(preguntas + 7) = "Pregunta 8";
+        *(preguntas + 8) = "Pregunta 9";
+        *(preguntas + 9) = "Pregunta 10";
 	srand((int) time(NULL));
 
 	agregar(personas, n);
 	histograma(personas, n);
 	destructor(personas, n);
+	free(preguntas);
 	return 0;
 }
 
@@ -95,7 +96,7 @@ void histograma(persona *p, int n){
 		{0,0,0,0,0,0},
 		{0,0,0,0,0,0},
 		{0,0,0,0,0,0}
-	};	
+	};
 
 	for(i = 0; i < n; ++i){
 		int (*r)[6] = r1;
@@ -125,7 +126,6 @@ void histograma(persona *p, int n){
 		rd1++;
 		c++;	
 	}
-
 	printf("\nRango de 26 a 35\n");
 		
 	pPuntero = p;
